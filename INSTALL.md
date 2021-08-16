@@ -22,14 +22,7 @@ To correctly install the platform there are some requirements:
 
 ## Installation with Docker
 
-1. Login to `ghcr.io`:
-   ```shell
-    export CR_PAT=YOUR_GITHUB_TOKEN
-    echo $CR_PAT | docker login ghcr.io -u GITHUB_USERNAME --password-stdin
-   ```
-   > For more information about the github token please refer here: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry
-
-2. Create a Github App on your organization:
+1. Create a Github App on your organization:
 
     * Go to `https://github.com/organizations/<organization>/settings/apps/new`;
 
@@ -58,14 +51,14 @@ To correctly install the platform there are some requirements:
 
     * Under the *Install App* tab, click the green button "Install"
 
-3. Create a folder (in this tutorial we will refer to them with the name of `data`) to store our files and the `terraform.tfstate`:
+2. Create a folder (in this tutorial we will refer to them with the name of `data`) to store our files and the `terraform.tfstate`:
 
     ```shell
     mkdir data
     cd ./data
     ```
 
-4. Inside the `data` folder do the following:
+3. Inside the `data` folder do the following:
 
    * Copy your  `kubeconfig` file;
 
@@ -102,19 +95,19 @@ To correctly install the platform there are some requirements:
     github_app_private_key    = "<Github app private key>"
     ```
 
-5. Review and check the execution plan:
+4. Review and check the execution plan:
 
     ```shell
     docker run --name=kerberus-plan --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:0.2.0 plan -var-file=./data/terraform.tfvars
     ```
 
-6. Apply the plan:
+5. Apply the plan:
 
     ```bash
     docker run --name=kerberus-apply --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:0.2.0 apply --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
     ```
 
-7. If Terraform fails with the following error:
+6. If Terraform fails with the following error:
     ```bash
     ╷
     │ Error: failed to execute "/bin/bash":   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -132,13 +125,13 @@ To correctly install the platform there are some requirements:
     ```
     It's because Terraform needs to reach ArgoCD. For this reason please expose <https://ARGOCD_HOSTNAME>.
 
-8. Run Terraform apply again:
+7. Run Terraform apply again:
 
     ```bash
     docker run --name=kerberus-apply --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:0.2.0 apply --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
     ```
 
-9. Expose <https://KERBERUS_DASHBOARD_HOSTNAME> and Enjoy! 
+8. Expose <https://KERBERUS_DASHBOARD_HOSTNAME> and Enjoy! 
 
 ## Uninstall
 
