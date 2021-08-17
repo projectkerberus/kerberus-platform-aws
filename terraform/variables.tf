@@ -218,7 +218,7 @@ variable "github_app_webhook_url" {
 variable "github_app_webhook_secret" {
   description = "GitHub App Webhook secret. Webhooks allow you to build or set up integrations, such as GitHub Apps or OAuth Apps, which subscribe to certain events on GitHub.com."
   type        = string
-  default     = ""
+  default     = "projectkerberus"
 }
 
 variable "github_app_private_key" {
