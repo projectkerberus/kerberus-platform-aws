@@ -51,14 +51,18 @@ To correctly install the platform there are some requirements:
 
     * Under the *Install App* tab, click the green button "Install"
 
-2. Create a folder (in this tutorial we will refer to them with the name of `data`) to store our files and the `terraform.tfstate`:
+2. Create a Github token, to do it please follow: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token;
+
+   > TODO: add the boxes to tick when creating the token
+
+3. Create a folder (in this tutorial we will refer to them with the name of `data`) to store our files and the `terraform.tfstate`:
 
     ```shell
     mkdir data
     cd ./data
     ```
 
-3. Inside the `data` folder do the following:
+4. Inside the `data` folder do the following:
 
    * Copy your  `kubeconfig` file;
 
@@ -81,6 +85,7 @@ To correctly install the platform there are some requirements:
     kerberus_dashboard_values_path = "./data/kerberus_dashboard_values.yaml"
 
     # GitHub Vars 
+    github_token              = "<github token>"
     github_app_id             = "<Github app id>"
     github_app_client_id      = "<Github app client id>"
     github_app_client_secret  = "<Github app client secret>"
@@ -95,25 +100,25 @@ To correctly install the platform there are some requirements:
     aws_shared_credentials_file_path = "./data/<aws shared credentials file>"
    
     # Argo vars
-    argocd_url         = "<domain name of ARGOCD>"
+    argocd_url         = "https://<domain name of ARGOCD>"
    
 
     ```
 
-4. Review and check the execution plan:
+5. Review and check the execution plan:
 
     ```shell
     cd ..
-    docker run --name=kerberus-plan --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:0.2.2 plan -var-file=./data/terraform.tfvars
+    docker run --name=kerberus-plan --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:latest plan -var-file=./data/terraform.tfvars
     ```
 
-5. Apply the plan:
+6. Apply the plan:
 
     ```bash
-    docker run --name=kerberus-apply --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:0.2.2 apply --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
+    docker run --name=kerberus-apply --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:latest apply --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
     ```
 
-6. If Terraform fails with the following error:
+7. If Terraform fails with the following error:
     ```bash
     ╷
     │ Error: failed to execute "/bin/bash":   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -131,20 +136,20 @@ To correctly install the platform there are some requirements:
     ```
     It's because Terraform needs to reach ArgoCD. For this reason please expose <https://ARGOCD_HOSTNAME>.
 
-7. Run Terraform apply again:
+8. Run Terraform apply again:
 
     ```bash
-    docker run --name=kerberus-apply --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:0.2.2 apply --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
+    docker run --name=kerberus-apply --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:latest apply --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
     ```
 
-8. Expose <https://KERBERUS_DASHBOARD_HOSTNAME> and Enjoy! 
+9. Expose <https://KERBERUS_DASHBOARD_HOSTNAME> and Enjoy! 
 
 > If you don't know where to start, you can read the [Kerberus Dashboard Tutorial](https://github.com/projectkerberus/kerberus-dashboard/blob/main/docs/TUTORIAL.md).
 
 ## Uninstall
 
 ```bash
-docker run --name=kerberus-destroy --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:0.2.2 destroy --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
+docker run --name=kerberus-destroy --rm -v <abs-path-to-data-folder>/data:/kerberus-platform/data ghcr.io/projectkerberus/kerberus-platform-aws:latest destroy --auto-approve -var-file=./data/terraform.tfvars -state=./data/terraform.tfstate
 ```
 
 Be careful, like explained in the [Crossplane documentation](https://crossplane.io/docs/v1.0/getting-started/install-configure.html#install-crossplane-cli) CRD resources are not removed, so additional command is required:

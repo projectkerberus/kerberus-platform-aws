@@ -174,7 +174,7 @@ variable "kerberus_dashboard_chart" {
 variable "kerberus_dashboard_chart_version" {
   description = "Specify the exact Kerberus chart version to install. If this is not specified, the latest version is installed."
   type        = string
-  default     = "0.2.0"
+  default     = "0.3.83"
 }
 
 variable "kerberus_dashboard_values_path" {
@@ -223,6 +223,12 @@ variable "github_app_webhook_secret" {
 
 variable "github_app_private_key" {
   description = "GitHub App Private key. You need a private key to sign access token requests."
+  type        = string
+  default     = ""
+}
+
+variable "github_token" {
+  description = "Github personal access token, please see: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token"
   type        = string
   default     = ""
 }
