@@ -232,3 +232,22 @@ variable "github_token" {
   type        = string
   default     = ""
 }
+
+#AD
+variable "microsoft_client_id" {
+  description = "Microsoft AD client id"
+  type        = string
+  default     = ""
+}
+
+variable "microsoft_client_secrets" {
+  description = "Microsoft AD client secrets"
+  type        = string
+  default     = ""
+}
+
+variable "microsoft_tenantId" {
+  description = "Microsoft AD tenantId"
+  type        = string
+  default     = ""
+}
